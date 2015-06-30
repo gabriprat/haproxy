@@ -71,6 +71,9 @@ def parse_backend_routes(dict_var):
             if name.endswith(LINK_PORT_SUFFIX):
                 addr_port['port'] = value
             addr_port_dict[container_name] = addr_port
+    if not addr_port_dict:
+        addr_port_dict['WEB_1'] = {'addr':'web1','port':'3000'}
+        addr_port_dict['WEB_2'] = {'addr':'web2','port':'3000'}
     return addr_port_dict
 
 
