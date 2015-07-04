@@ -31,7 +31,7 @@ def cfg_default(rsyslog_dst, maxconn, stats_port, stats_auth, mode, options, tim
                          "stats uri /",
                          "stats auth %s" % stats_auth,
                          "acl site_dead nbsrv(default_service) lt 1",
-                         "tcp-request reject if site_dead"],
+                         "tcp-request connection reject if site_dead"],
         "defaults": ["log global",
                      "mode %s" % mode]})
     for opt in options:
