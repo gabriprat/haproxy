@@ -29,7 +29,9 @@ def cfg_default(rsyslog_dst, maxconn, stats_port, stats_auth, mode, options, tim
                          "stats hide-version",
                          "stats realm Haproxy\ Statistics",
                          "stats uri /",
-                         "stats auth %s" % stats_auth],
+                         "stats auth %s" % stats_auth,
+                         "acl site_dead nbsrv(default_service) lt 1",
+                         "tcp-request reject if site_dead"],
         "defaults": ["log global",
                      "mode %s" % mode]})
     for opt in options:
@@ -99,6 +101,7 @@ def cfg_backend(backend_routes, vhost):
                         backend.append("appsession %s len 64 timeout 3h request-learn prefix" % (SESSION_COOKIE, ))
 
                     backend.append("balance %s" % BALANCE)
+                    backend.append("option httpchk")
                     for container_name, addr_port in backend_routes.iteritems():
                         if container_name.startswith(service_name):
                             server_string = "server %s %s:%s" % (container_name, addr_port["addr"], addr_port["port"])
