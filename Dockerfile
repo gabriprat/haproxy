@@ -1,18 +1,15 @@
 FROM ubuntu:trusty
 MAINTAINER Feng Honglin <hfeng@tutum.co>
 
-# Install pip and haproxy and get error files
+# Install pip and haproxy
 RUN echo 'deb http://ppa.launchpad.net/vbernat/haproxy-1.5/ubuntu trusty main' >> /etc/apt/sources.list && \
     echo 'deb-src http://ppa.launchpad.net/vbernat/haproxy-1.5/ubuntu trusty main' >> /etc/apt/sources.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 505D97A41C61B9CD && \
     apt-get update && \
-    apt-get install -y --no-install-recommends haproxy python-pip && \
+    apt-get install -y --no-install-recommends haproxy python-pip wget && \
     apt-get clean && \
     pip install python-tutum==0.15.1.1 && \
-    rm -rf /var/lib/apt/lists/* \
-    mkdir -p /etc/haproxy/errorfiles/ \
-    wget https://s3-eu-west-1.amazonaws.com/hoshinplan/error_503.html -O /etc/haproxy/errorfiles/error_503.http \
-    wget https://s3-eu-west-1.amazonaws.com/hoshinplan/maintenance.html -O /etc/haproxy/errorfiles/maintenance.http
+    rm -rf /var/lib/apt/lists/*
 
 # the rsyslog destination to where haproxy logs are sent
 ENV RSYSLOG_DESTINATION 127.0.0.1

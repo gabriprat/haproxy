@@ -20,4 +20,8 @@ else
     echo "No SSL certificate provided"
 fi
 
+mkdir -p /etc/haproxy/errorfiles
+wget http://s3-eu-west-1.amazonaws.com/hoshinplan/error_503.html -O /etc/haproxy/errorfiles/error_503.http
+wget http://s3-eu-west-1.amazonaws.com/hoshinplan/maintenance.html -O /etc/haproxy/errorfiles/maintenance.http
+
 exec python /app/haproxy.py 
