@@ -30,8 +30,6 @@ def cfg_default(rsyslog_dst, maxconn, stats_port, stats_auth, mode, options, tim
                          "stats realm Haproxy\ Statistics",
                          "stats uri /",
                          "stats auth %s" % stats_auth],
-                         #"acl site_dead nbsrv(default_service) lt 1",
-                         #"tcp-request connection reject if site_dead"],
         "defaults": ["log global",
                      "mode %s" % mode]})
     for opt in options:
@@ -52,7 +50,6 @@ def cfg_frontend(vhost):
     cfg = OrderedDict()
     frontend = []
     frontend.append("bind 0.0.0.0:%s" % FRONTEND_PORT)
-    #frontend.append("errorfile 503 /etc/haproxy/errorfiles/error_503.http")
     if SSL:
         frontend.append("reqadd X-Forwarded-Proto:\ https")
         frontend.append("redirect scheme https code 301 if !{ ssl_fc }"),
@@ -127,7 +124,6 @@ def cfg_backend(backend_routes, vhost):
             backend.append("appsession %s len 64 timeout 3h request-learn prefix" % (SESSION_COOKIE, ))
 
         backend.append("balance %s" % BALANCE)
-        #backend.append("option httpchk")
         for container_name, addr_port in backend_routes.iteritems():
             server_string = "server %s %s:%s" % (container_name, addr_port["addr"], addr_port["port"])
             if SESSION_COOKIE:
