@@ -52,7 +52,7 @@ def cfg_frontend(vhost):
     cfg = OrderedDict()
     frontend = []
     frontend.append("bind 0.0.0.0:%s" % FRONTEND_PORT)
-    frontend.append("errorfile 503 /etc/haproxy/errorfiles/error_503.http")
+    #frontend.append("errorfile 503 /etc/haproxy/errorfiles/error_503.http")
     if SSL:
         frontend.append("reqadd X-Forwarded-Proto:\ https")
         frontend.append("redirect scheme https code 301 if !{ ssl_fc }"),
