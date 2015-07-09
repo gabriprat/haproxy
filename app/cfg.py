@@ -35,6 +35,7 @@ def cfg_default(rsyslog_dst, maxconn, stats_port, stats_auth, mode, options, tim
     for opt in options:
         if opt:
             cfg["defaults"].append("option %s" % opt.strip())
+    cfg["defaults"].append("errorfile 503 /etc/haproxy/errors/503.http")
     for t in timeout:
         if t:
             cfg["defaults"].append("timeout %s" % t.strip())
@@ -42,7 +43,6 @@ def cfg_default(rsyslog_dst, maxconn, stats_port, stats_auth, mode, options, tim
         cfg["global"].append("ssl-default-bind-options %s" % ssl_bind_opts)
     if ssl_bind_ciphers:
         cfg["global"].append("ssl-default-bind-ciphers %s" % ssl_bind_ciphers)
-    cfg["global"].append("errorfile 503 /etc/haproxy/errors/503.http")
 
     return cfg
 
