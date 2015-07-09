@@ -22,6 +22,12 @@ fi
 
 mkdir -p /etc/haproxy/errorfiles
 wget http://s3-eu-west-1.amazonaws.com/hoshinplan/error_503.html -O /etc/haproxy/errors/503.http
-wget http://s3-eu-west-1.amazonaws.com/hoshinplan/maintenance.html -O /etc/haproxy/errors/maintenance.http
+sed -i -e '1i\
+HTTP/1.0 503 Service Unavailable\
+Cache-Control: no-cache\
+Connection: close\
+Content-Type: text/html\
+
+' /etc/haproxy/errors/503.http
 
 exec python /app/haproxy.py 

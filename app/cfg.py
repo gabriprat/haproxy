@@ -100,6 +100,7 @@ def cfg_backend(backend_routes, vhost):
 
                     backend.append("balance %s" % BALANCE)
                     backend.append("option httpchk")
+                    backend.append("errorfile 503 /etc/haproxy/errors/503.http")
                     for container_name, addr_port in backend_routes.iteritems():
                         if container_name.startswith(service_name):
                             server_string = "server %s %s:%s" % (container_name, addr_port["addr"], addr_port["port"])
